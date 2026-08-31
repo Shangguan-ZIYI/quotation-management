@@ -1,0 +1,61 @@
+{
+  "name": "quotation-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "报价与客户询价管理系统",
+  "author": "Quotation Team",
+  "main": "electron/main.js",
+  "scripts": {
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm start",
+    "dev:client": "cd client && npm run dev",
+    "build": "npm --prefix client run build",
+    "dist:win": "npm --prefix client run build && electron-builder --win",
+    "dist:mac": "npm --prefix client run build && electron-builder --mac"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "cors": "^2.8.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.2"
+  },
+  "devDependencies": {
+    "electron": "^33.4.5",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.quotation.manager",
+    "productName": "报价管理系统",
+    "directories": {
+      "output": "dist-app"
+    },
+    "files": [
+      "electron/**",
+      "server/src/**",
+      "client/dist/**",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "artifactName": "报价管理系统-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "报价管理系统-Setup-${version}.${ext}"
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.business",
+      "artifactName": "报价管理系统-${version}-${arch}.${ext}"
+    }
+  }
+}

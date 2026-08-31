@@ -1,0 +1,120 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  background: #f4f6f9;
+  color: #24292f;
+  font-size: 14px;
+}
+
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 200px;
+  background: #1f2937;
+  color: #fff;
+  padding: 16px 0;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.sidebar .logo { font-size: 17px; padding: 8px 16px 20px; }
+.sidebar nav { display: flex; flex-direction: column; }
+.sidebar nav a {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 11px 16px;
+  border-left: 3px solid transparent;
+}
+.sidebar nav a:hover { background: #374151; color: #fff; }
+.sidebar nav a.active { background: #111827; color: #fff; border-left-color: #3b82f6; }
+
+.content { flex: 1; padding: 20px 24px; overflow-x: auto; }
+
+h2 { font-size: 20px; margin-bottom: 14px; }
+h3 { font-size: 15px; margin: 14px 0 8px; }
+
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+
+input, select, textarea {
+  padding: 7px 10px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid #3b82f680; border-color: #3b82f6; }
+
+button {
+  padding: 7px 14px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+}
+button:hover { background: #f3f4f6; }
+button.primary { background: #2563eb; border-color: #2563eb; color: #fff; }
+button.primary:hover { background: #1d4ed8; }
+button.success { background: #16a34a; border-color: #16a34a; color: #fff; }
+button.success:hover { background: #15803d; }
+button.danger { color: #dc2626; border-color: #fca5a5; }
+button.danger:hover { background: #fef2f2; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.small { padding: 3px 8px; font-size: 12px; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; vertical-align: middle; }
+th { background: #f9fafb; font-weight: 600; white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td img.thumb { width: 46px; height: 46px; object-fit: cover; border-radius: 4px; border: 1px solid #e5e7eb; }
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.stat-card {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 18px; text-decoration: none; color: inherit; display: block;
+}
+.stat-card:hover { border-color: #3b82f6; }
+.stat-card .num { font-size: 28px; font-weight: 700; color: #2563eb; }
+.stat-card .label { color: #6b7280; margin-top: 4px; }
+
+.badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; }
+.badge.deal { background: #dcfce7; color: #166534; }
+.badge.pending { background: #fef3c7; color: #92400e; }
+.badge.unmatched { background: #fee2e2; color: #991b1b; }
+
+.msg { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; white-space: pre-wrap; }
+.msg.error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.msg.success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.msg.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+
+.modal-mask {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.modal {
+  background: #fff; border-radius: 10px; padding: 20px;
+  width: 560px; max-width: 94vw; max-height: 90vh; overflow-y: auto;
+}
+.modal h3 { margin-top: 0; }
+.form-grid { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: center; margin-bottom: 12px; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+
+.muted { color: #6b7280; }
+.right { text-align: right; }
+.nowrap { white-space: nowrap; }
+.mt { margin-top: 14px; }
+
+.supplier-option { display: flex; gap: 10px; align-items: center; padding: 3px 0; }
