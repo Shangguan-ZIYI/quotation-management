@@ -1,6 +1,6 @@
 # Quotation Management
 
-A local-first desktop application for managing industrial-parts product data, supplier pricing, customer inquiries, quotations, and purchase-intent records.
+A local-first desktop application for managing industrial-parts product data, supplier pricing, customer inquiries, quotations, and pro forma invoice (PI) records.
 
 The project is based on a real quotation workflow serving more than 200 buyers across 12 countries. It replaces scattered spreadsheets with a structured system that keeps product, supplier, customer, and quotation data connected.
 
