@@ -2,8 +2,11 @@
   "name": "quotation-management",
   "version": "1.0.0",
   "private": true,
-  "description": "报价与客户询价管理系统",
-  "author": "Quotation Team",
+  "description": "Local-first desktop application for managing products, suppliers, customer inquiries, and quotations",
+  "author": {
+    "name": "Jay Da",
+    "email": "jayda@globalbiocaretech.com"
+  },
   "main": "electron/main.js",
   "scripts": {
     "install:all": "cd server && npm install && cd ../client && npm install",
