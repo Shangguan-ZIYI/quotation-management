@@ -1,73 +1,101 @@
-# 报价与客户询价管理系统
+# Quotation Management
 
-本地部署的报价与客户询价管理软件。
+A local-first desktop application for managing industrial-parts product data, supplier pricing, customer inquiries, quotations, and purchase-intent records.
 
-## 技术架构
+The project is based on a real quotation workflow serving more than 200 buyers across 12 countries. It replaces scattered spreadsheets with a structured system that keeps product, supplier, customer, and quotation data connected.
 
-- **Backend**: Node.js + Express + better-sqlite3(SQLite,本地文件持久化)
-- **Frontend**: React 18 + Vite + React Router
-- **Excel**: exceljs(导入 / 导出)
-- **上传**: multer(产品图片 / Excel / PI 文件)
+## Highlights
 
-## 目录结构
+- Maintains a bilingual product catalog with product numbers, Chinese and English names, weight, images, notes, and descriptions
+- Supports multiple suppliers per product, each with independent pricing and lead-time data
+- Connects customers, inquiries, line items, quotations, and PI records through a relational data model
+- Imports and exports Excel workbooks with `exceljs`
+- Stores data locally in SQLite with foreign keys, indexes, and WAL mode
+- Packages the React and Express application as a Windows or macOS desktop app with Electron
 
-```
-├── server/               后端
-│   ├── src/
-│   │   ├── index.js      Express 入口(端口 3001)
-│   │   ├── db.js         SQLite 数据库与 Schema
-│   │   ├── upload.js     文件上传工具
-│   │   ├── pi-parser.js  PI 成交识别(临时通用解析,等待真实模板)
-│   │   └── routes/       products / customers / inquiries / quotations / dashboard
-│   ├── data/app.db       SQLite 数据库文件(自动创建)
-│   └── uploads/          images(产品图片)/ pi(PI 文件)/ imports(导入的 Excel)
-└── client/               前端(Vite 开发端口 5173,已配置 /api 代理)
-    └── src/pages/        Dashboard / ProductDatabase / CustomerInquiry /
-                          CustomerManagement / CustomerDetail / QuotationDatabase
-```
+## Tech Stack
 
-## 启动方式(开发模式)
-
-需要两个终端:
-
-```bash
-# 终端 1 —— 后端
-cd server
-npm install     # 首次
-npm start       # http://localhost:3001
-
-# 终端 2 —— 前端
-cd client
-npm install     # 首次
-npm run dev     # http://localhost:5173  ← 浏览器打开这个
-```
-
-## 启动方式(单进程生产模式)
-
-```bash
-npm run start   # 构建前端后由后端统一托管,访问 http://localhost:3001
-```
-
-## 数据库 Schema
-
-| 表 | 说明 |
+| Layer | Technology |
 |---|---|
-| products | 产品总库(product_number 唯一、中英文名、weight、image、remark) |
-| product_suppliers | 多供应商(同一件号多个供应商,各自 price / lead_time) |
-| customers | 客户档案(name 唯一、country 等) |
-| inquiries | 询价单(隶属客户) |
-| inquiry_items | 询价明细(件号、供应商、数量、单价、成交状态、成交总价、Currency、PI 来源) |
-| quotations | 报价数据库(所有客户混合,与 inquiry_items 联动) |
-| pi_uploads | PI 上传记录(文件、Currency、解析摘要) |
+| Desktop | Electron, electron-builder |
+| Frontend | React 18, Vite, React Router |
+| Backend | Node.js, Express |
+| Database | SQLite, better-sqlite3 |
+| Files and spreadsheets | Multer, ExcelJS |
 
-## 等待外部模板的功能
+## Architecture
 
-以下三处目前为**接口框架 / 临时解析**,等待真实模板后完成最终解析逻辑:
+```text
+Electron desktop shell
+├── React client
+│   ├── Dashboard
+│   ├── Product database
+│   ├── Customer inquiry workflow
+│   ├── Customer management
+│   └── Quotation database
+└── Express API
+    ├── Product and supplier routes
+    ├── Customer and inquiry routes
+    ├── Quotation and dashboard routes
+    ├── Excel and PI file handling
+    └── SQLite database
+```
 
-1. **Template 1** 总库 Excel 导入 —— `POST /api/products/import`(文件已接收保存,解析待模板)
-2. **Template 2** 客户询价 Excel 导入 —— `POST /api/inquiries/import`(同上)
-3. **Template 3** PI 导入 —— `server/src/pi-parser.js`(当前为通用临时解析:匹配客户历史询价件号、行末数值作为成交总价、符号识别 Currency;收到模板后按真实结构重写定位逻辑)
+The database separates products from supplier offers so that one product number can have multiple suppliers without duplicating the core product record. Foreign-key relationships connect inquiry items and quotation records back to customers and uploaded PI documents.
 
-## 当前明确不包含
+## Run Locally
 
-HS Code 相关全部功能(按需求暂不开发)。
+Requirements: Node.js 20+ and npm.
+
+Install the client and server dependencies:
+
+```bash
+npm run install:all
+```
+
+Start the backend:
+
+```bash
+npm run dev:server
+```
+
+In a second terminal, start the frontend:
+
+```bash
+npm run dev:client
+```
+
+Open `http://localhost:5173`. The Vite development server proxies API requests to the Express server on port `3001`.
+
+## Build the Desktop App
+
+```bash
+npm install
+npm run dist:win
+# or
+npm run dist:mac
+```
+
+Build artifacts are written to `dist-app/`.
+
+## Data Model
+
+| Table | Purpose |
+|---|---|
+| `products` | Core product catalog |
+| `product_suppliers` | Supplier-specific price and lead time |
+| `customers` | Customer profiles and country data |
+| `inquiries` | Customer inquiry headers |
+| `inquiry_items` | Products, quantities, pricing, and deal status |
+| `quotations` | Searchable quotation history |
+| `pi_uploads` | Uploaded PI metadata and parsing results |
+
+## Project Status
+
+This repository is a functional local-first MVP. Core catalog, supplier, customer, inquiry, quotation, and desktop workflows are implemented. Template-specific import and PI parsing logic is still being refined against real business documents.
+
+## Author
+
+**Jay Da**  
+M.S. Computer Science, Northeastern University  
+[jayda@globalbiocaretech.com](mailto:jayda@globalbiocaretech.com)
